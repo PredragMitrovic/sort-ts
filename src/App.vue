@@ -4,12 +4,12 @@
     <button @click="clickOrderJobList('salary')">Orrder by salary</button>
     <button @click="clickOrderJobList('title')">Orrder by title</button>
     <button @click="clickOrderJobList('location')">Orrder by location</button>
-    <job-list :jobs='jobs'  :orderjobSingle = 'orderjobSingle'/>
-
+    <input type="text" v-model="searchByTitle">
+    <p>{{searchByTitle}}</p>
+    <job-list :jobs='jobs'  :orderjobSingle = 'orderjobSingle' :searchByTitle='searchByTitle'/>
     <button @click="tsComponentShow =! tsComponentShow">Pokazi TS komponentu</button>
     <hr>
     <div v-if="tsComponentShow">
-      <p>{{nesto}}</p>
       <hr>
       <tsComponent/>
     </div>
@@ -35,33 +35,24 @@ export default defineComponent({
     }
   },
   setup() {
-    const state = reactive({
-      mojeIme: 'Peki majstorcina',
-      mojeGodiste: 1983 as string | number
-    })
-    const nesto = ref<number | string>(123)
 
     const jobs = ref<Job[]>([
-      {title: 'programer' , location: 'Zemun', salary: 2500, id: 1},
-      {title: 'programer2' , location: 'Zemun2', salary: 25200, id: 12},
-      {title: 'programer3' , location: 'Zemun3', salary: 25030, id: 13},
-      {title: 'programer44' , location: 'Zemun4', salary: 25400, id: 14},
-      {title: 'programer5' , location: 'Zemun5', salary: 25500, id: 15},
-      {title: 'programer6' , location: 'Zemu6n', salary: 25006, id: 16},
+      {title: 'programer' , location: 'Zemun', salary: 1000, id: 1},
+      {title: 'masinovodja' , location: 'Beeograd', salary: 2000, id: 12},
+      {title: 'bokser' , location: 'Novi sad', salary: 7000, id: 13},
+      {title: 'zigolo' , location: 'Arandjelovac', salary: 6000, id: 14},
+      {title: 'fudbaler' , location: 'Kopaonik', salary: 4000, id: 15},
+      {title: 'peruanac' , location: 'Minhen', salary: 3000, id: 16},
     ])
     const orderjobSingle = ref<JobOrder>('title')
 
     const clickOrderJobList = (jobOrderParametter: JobOrder) => {
       orderjobSingle.value = jobOrderParametter 
     }
+    // filter 
+     const searchByTitle = ref('')
 
-    return { ...toRefs(state), nesto, jobs, orderjobSingle, clickOrderJobList  } // 3 tacke da razdvoji na individualne propertije unutar objekta
-  },
-  methods: {
-    changeIme (parametar: string) {
-      this.mojeIme = parametar
-      return parametar
-    }
+    return { jobs, orderjobSingle, clickOrderJobList, searchByTitle  } // 3 tacke da razdvoji na individualne propertije unutar objekta
   }
 });
 </script>
